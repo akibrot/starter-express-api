@@ -1,7 +1,16 @@
-const express = require('express')
-const app = express()
-app.all('/', (req, res) => {
-    console.log("Just got a request!")
-    res.send('Yo!')
+import express from 'express'
+import dotenv from 'dotenv'
+import cors from 'cors'
+import router from './routes/router.js'
+dotenv.config()
+const port=process.env.PORT || 3000
+const app=express()
+app.use(express.json({limit:"50mb"}))
+app.use(cors())
+
+app.listen(port,()=>{
+    console.log("app started in port "+port)
+
+
 })
-app.listen(process.env.PORT || 3000)
+app.use(router)
