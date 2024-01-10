@@ -1,9 +1,9 @@
 import expressAsyncHandler from "express-async-handler";
 import mysql from 'mysql2/promise'
 
-const searchedData=expressAsyncHandler(async(req,res)=>{
-  // console.log(req.body)
-    const ContractNo=req.body.ContractNo
+const getBillInfoAfetrPayment=expressAsyncHandler(async( ContractNo)=>{
+
+ 
 
     const pool = mysql.createPool({
         host: process.env.HOST,
@@ -20,25 +20,14 @@ const searchedData=expressAsyncHandler(async(req,res)=>{
 
     if(rows.length>0){
       const sendData={
-        Key:process.env.CHAPA_API_KEY,
         ContractNo:rows[0].ContractNo,
-        billStatus:rows[0].billStatus,
-        custID:rows[0].custID,
-        customerName:rows[0].customerName,
         prevTotal:rows[0].prevMRate+rows[0].prevPenality+rows[0].prevTariff,
-        readingCurrent:rows[0].readingCurrent,
-        readingPrev:rows[0].readingPrev,
-        readingCons:rows[0].readingCons,
         totalCost:rows[0].totalCost,
-        invoiceNo:rows[0].invoiceNo
-        
             }
-      res.send(sendData)
+      return sendData
 
     }
-    else res.send(null)
-
+    else return null
 
 })
-export default searchedData
-
+export default getBillInfoAfetrPayment;
