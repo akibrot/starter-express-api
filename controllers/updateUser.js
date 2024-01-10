@@ -18,7 +18,7 @@ const updateBillStatus=expressAsyncHandler(async(req,res)=>{
     });
 
 
- console.log(update[0].ResultSetHeader['affectedRows'])
+ console.log(update[0].ResultSetHeader.affectedRows)
 
 //  if(update[0]['ResultSetHeader']['affectedRows']==1){
 //   res.status(200).send({

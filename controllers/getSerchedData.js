@@ -20,7 +20,7 @@ const searchedData=expressAsyncHandler(async(req,res)=>{
 
     if(rows.length>0){
       const sendData={
-        Key:process.env.CHAPA_API_KEY,
+        key:process.env.CHAPA_API_KEY,
         ContractNo:rows[0].ContractNo,
         billStatus:rows[0].billStatus,
         custID:rows[0].custID,
