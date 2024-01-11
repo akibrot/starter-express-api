@@ -13,19 +13,19 @@ const updateBillStatus=expressAsyncHandler(async(req,res)=>{
         connectionLimit: 10,
         queueLimit: 0
       });
-    const update = await pool.query(`Update  online_bills set billStatus=?,soldID=?  where ContractNo=?`,['SOLD',process.env.ONLINE_AGENT_ID,ContractNo]).finally(()=>{
+    const update = await pool.query(`Update  online_bills set billStatus=?,soldID=?  where ContractNo=?`,['SOLD',process.env.ONLINE_AGENT_ID,ContractNo]).then((res)=>{
+     const {changedRows}=res[0]
+      console.log(changedRows)
+     if(changedRows==1) {
+res.status(200).json({message:"user updated"})
+      }
+
+    }).catch((err)=>{
+      res.send(err)
+    }).finally(()=>{
        pool.end()
     });
 
-
- console.log(update[0].ResultSetHeader.affectedRows)
-
-//  if(update[0]['ResultSetHeader']['affectedRows']==1){
-//   res.status(200).send({
-//     'contractNo':ContractNo,
-//     'billStatus':'SOLD'
-//   })
-//  }
   return 
 
 
