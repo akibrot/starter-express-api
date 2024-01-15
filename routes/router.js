@@ -6,7 +6,7 @@ import requestPayment from '../controllers/requestPayment.js'
 
 const router=express.Router()
 router.get('/',(req,res)=>{
-    res.send("welcome to the server akibrot")
+    res.send("welcome to the online bill payment api ")
 })
 
 //get single data
