@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import mysql from 'mysql2/promise'
-
+import  jwt from 'jsonwebtoken'
 const searchedData = expressAsyncHandler(async (req, res) => {
   // console.log(req.body)
   const ContractNo = req.body.ContractNo
@@ -19,6 +19,9 @@ const searchedData = expressAsyncHandler(async (req, res) => {
   });
 
   if (rows.length > 0) {
+    
+    const token = jwt.sign({ ContractNo: rows[0].ContractNo }, process.env.TOKEN_SECRET, { expiresIn: '5m' });
+
     const sendData = {
 
       ContractNo: rows[0].ContractNo,
@@ -32,14 +35,15 @@ const searchedData = expressAsyncHandler(async (req, res) => {
       totalCost: rows[0].totalCost,
       invoiceNo: rows[0].invoiceNo,
       monthIndex: rows[0].monthIndex,
-      fiscalYear: rows[0].fiscalYear
+      fiscalYear: rows[0].fiscalYear,
+      token
 
     }
     res.send(sendData)
 
   }
   else res.send(null)
-
+// pool.end()
 
 })
 export default searchedData

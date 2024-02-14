@@ -2,9 +2,11 @@ import expressAsyncHandler from "express-async-handler";
 import mysql from 'mysql2/promise'
 import axios from 'axios'
 
-const requestPayment=expressAsyncHandler(async(req,res)=>{
-
+const requestPayment = expressAsyncHandler(async (req, res) => {
+    console.log("from request payment page")
     console.log(req.body)
+// axios.
+//     console.log(req.body)
     const api=process.env.CHAPA_API_KEY
 
     const config = {
