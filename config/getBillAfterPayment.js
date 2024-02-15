@@ -21,7 +21,8 @@ const getBillInfoAfetrPayment=expressAsyncHandler(async( ContractNo)=>{
     if(rows.length>0){
       const sendData={
         ContractNo:rows[0].ContractNo,
-        prevTotal:rows[0].prevMRate+rows[0].prevPenality+rows[0].prevTariff,
+        fiscalYear: rows[0].fiscalYear,
+        monthIndex: rows[0].monthIndex,
         totalCost:rows[0].totalCost,
             }
       return sendData
