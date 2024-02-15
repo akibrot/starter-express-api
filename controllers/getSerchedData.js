@@ -20,7 +20,7 @@ const searchedData = expressAsyncHandler(async (req, res) => {
 
   if (rows.length > 0) {
     
-    const token = jwt.sign({ ContractNo: rows[0].ContractNo }, process.env.TOKEN_SECRET, { expiresIn: '5m' });
+    const token = jwt.sign({ ContractNo: rows[0].ContractNo,fiscalYear:rows[0].fiscalYear,monthIndex:rows[0].monthIndex }, process.env.TOKEN_SECRET, { expiresIn: '15m' });
 
     const sendData = {
 
