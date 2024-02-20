@@ -21,9 +21,9 @@ const searchedData = expressAsyncHandler(async (req, res) => {
   if (rows.length > 0) {
     
     const token = jwt.sign({ ContractNo: rows[0].ContractNo,fiscalYear:rows[0].fiscalYear,monthIndex:rows[0].monthIndex }, process.env.TOKEN_SECRET, { expiresIn: '15m' });
-
+// console.log(rows[0].prevNoMth)
     const sendData = {
-
+      prevNoMth: rows[0].prevNoMth,
       ContractNo: rows[0].ContractNo,
       billStatus: rows[0].billStatus,
       custID: rows[0].custID,

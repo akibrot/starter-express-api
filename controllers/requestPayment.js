@@ -4,10 +4,7 @@ import axios from 'axios'
 import request from 'request';
 
 const requestPayment = expressAsyncHandler(async (req, res) => {
-    console.log("from request payment page")
-    // console.log(req.body)
-// axios.
-//     console.log(req.body)
+
     const api=process.env.CHAPA_API_KEY
 
     // const config = {
@@ -16,7 +13,7 @@ const requestPayment = expressAsyncHandler(async (req, res) => {
     //     }
      
     // }
-    // const customizationTitle = "customization[title]";
+
 
     // const data={
     //     phone_number: '0934680311',
@@ -26,50 +23,94 @@ const requestPayment = expressAsyncHandler(async (req, res) => {
     //     last_name: req.body.ContractNo,
     //     tx_ref: req.body.tx_ref,
     //     callback_url: process.env.CHAPA_CALLBACK_URL,
-    //     customization: "dilla water"
+        
         
     // }
     // const jsonData = JSON.stringify(data);
-  
-    // const response=await axios.post(process.env.CHAPA_PAYMENT_URL,jsonData,config)
-    // if(response.status==200 && response.data.status=="success"){
-    //     res.status(200).send(response.data)
+  try {
+    // const response = await axios.post(process.env.CHAPA_PAYMENT_URL, jsonData, config)
+    
+    // if (response.status == 200 && response.data.status == "success") {
+    //   res.status(200).send(response.data)
     // }
 
     // else res.status(404).send("error in the request")
 
-    //this is test
+    //begin
+    var options = {
+      'method': 'POST',
+      'url': 'https://api.chapa.co/v1/transaction/initialize',
+      'headers': {
+        'Authorization': `Bearer ${api}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "amount": req.body.amount,
+        "currency": "ETB",
+        "first_name": req.body.customerName,
+        "last_name": req.body.ContractNo,
+        "tx_ref": req.body.tx_ref,
+        "callback_url": process.env.CHAPA_CALLBACK_URL,
+        "customization[title]": process.env.ENTERPRISE_NAME,
+        "customization[description]": process.env.ENTERPRISE_DESC
+      })
 
-var options = {
-  'method': 'POST',
-  'url': 'https://api.chapa.co/v1/transaction/initialize',
-  'headers': {
-    'Authorization': `Bearer ${api}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    "amount": req.body.amount,
-    "currency": "ETB",
-    "first_name": req.body.customerName,
-    "last_name": req.body.ContractNo,
-    "tx_ref": req.body.tx_ref,
-    "callback_url": process.env.CHAPA_CALLBACK_URL,
-    "customization[title]": process.env.ENTERPRISE_NAME,
-    "customization[description]": process.env.ENTERPRISE_DESC
-  })
+    };
+    request(options, function (error, response) {
+      if (error) {
+        res.status(404).send("error in the request")
+        console.log("host not reachable")
+      } else {
+        const decodedData = JSON.parse(response.body);
+        const checkout_url = decodedData.data['checkout_url']
+        // console.log(checkout_url);
+        res.status(200).send(checkout_url)
+      }
+    });
+    //end
+  }
+  catch (err) {
+   res.status(404).send("error in the request")
+  }
 
-};
-request(options, function (error, response) {
-    if (error) throw new Error(error);
-    const decodedData = JSON.parse(response.body);
-    const checkout_url=decodedData.data['checkout_url']
-    console.log(checkout_url);
-    res.status(200).send(checkout_url)
-});
 
 })
 export default requestPayment
 
 
+/**
+ * 
+ *   try {
+  
 
+    var options = {
+      'method': 'POST',
+      'url': 'https://api.chapa.co/v1/transaction/initialize',
+      'headers': {
+        'Authorization': `Bearer ${api}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "amount": req.body.amount,
+        "currency": "ETB",
+        "first_name": req.body.customerName,
+        "last_name": req.body.ContractNo,
+        "tx_ref": req.body.tx_ref,
+        "callback_url": process.env.CHAPA_CALLBACK_URL,
+        "customization[title]": process.env.ENTERPRISE_NAME,
+        "customization[description]": process.env.ENTERPRISE_DESC
+      })
 
+    };
+    request(options, function (error, response) {
+      if (error) throw new Error(error);
+      const decodedData = JSON.parse(response.body);
+      const checkout_url = decodedData.data['checkout_url']
+      // console.log(checkout_url);
+      res.status(200).send(checkout_url)
+    });
+  
+} catch (error) {
+ throw error
+}
+**/
