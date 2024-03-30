@@ -7,12 +7,14 @@ import  jwt from 'jsonwebtoken'
 const verifiyTokenMiddelware = expressAsyncHandler(async (req, res, next) => {
     // console.log("form tokin verify")
     // console.log(req.body)
+    // console.log('**************')
+
  try {
      const vtoken = jwt.verify(req.body.token, process.env.TOKEN_SECRET)
   
      if (vtoken.ContractNo == req.body.ContractNo) {
         //  console.log("next route")
-    console.log("Token verified request page")
+    // console.log("Token verified request page")
 
          next()
      }

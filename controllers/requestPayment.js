@@ -4,7 +4,7 @@ import axios from 'axios'
 import request from 'request';
 
 const requestPayment = expressAsyncHandler(async (req, res) => {
-
+// console.log('requestpayment')
     const api=process.env.CHAPA_API_KEY
 
     // const config = {
@@ -59,7 +59,7 @@ const requestPayment = expressAsyncHandler(async (req, res) => {
     request(options, function (error, response) {
       if (error) {
         res.status(404).send("error in the request")
-        console.log("host not reachable")
+        // console.log("host not reachable")
       } else {
         const decodedData = JSON.parse(response.body);
         const checkout_url = decodedData.data['checkout_url']

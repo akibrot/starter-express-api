@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import mysql from 'mysql2/promise'
 
 const getBillInfoAfetrPayment=expressAsyncHandler(async( ContractNo)=>{
-
+// console.log('after payment check')
  
 
     const pool = mysql.createPool({
