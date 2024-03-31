@@ -3,8 +3,7 @@ import mysql from 'mysql2/promise'
 
 const getBillInfoAfetrPayment=expressAsyncHandler(async( ContractNo)=>{
 // console.log('after payment check')
- 
-
+ try {
     const pool = mysql.createPool({
         host: process.env.HOST,
         user: process.env.USER,
@@ -28,7 +27,9 @@ const getBillInfoAfetrPayment=expressAsyncHandler(async( ContractNo)=>{
       return sendData
 
     }
-    else return null
+  } catch (error) {
+ console.log(error)
+  }
 
 })
 export default getBillInfoAfetrPayment;

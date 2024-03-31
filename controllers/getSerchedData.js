@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import mysql from 'mysql2/promise'
 import  jwt from 'jsonwebtoken'
 const searchedData = expressAsyncHandler(async (req, res) => {
-  // console.log(req.body)
+  console.log('serachlog')
   const ContractNo = req.body.ContractNo
 
   const pool = mysql.createPool({
